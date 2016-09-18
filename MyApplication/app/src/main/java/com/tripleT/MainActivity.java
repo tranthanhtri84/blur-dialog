@@ -2,16 +2,20 @@ package com.tripleT;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.tripleT.blur.dialog.BlurConfirmDialog;
 import com.tripleT.blur.dialog.BlurMessageDialog;
+import com.tripleT.blur.dialog.BlurOptionDialog;
 import com.tripleT.blur.dialog.IConfirmBuilder;
+import com.tripleT.blur.dialog.IOptionBuilder;
 import com.tripleT.blur.dialog.WheelLoadingDialog;
 
 import java.util.concurrent.TimeUnit;
@@ -29,9 +33,71 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showConfirm();
+                showOptions();
             }
         });
+    }
+
+    private void showOptions(){
+        BlurOptionDialog.getInstance(this)
+                .option(new IOptionBuilder.IOption<String>() {
+                    @Override
+                    public String label() {
+                        return "Facebook";
+                    }
+                    @Override
+                    public void onClick(@Nullable String object) {
+                        optionSelected(object);
+                    }
+
+                    @Nullable
+                    @Override
+                    public String data() {
+                        return "Facebook";
+                    }
+
+                })
+                .option(new IOptionBuilder.IOption<String>() {
+                    @Override
+                    public String label() {
+                        return "Google";
+                    }
+                    @Override
+                    public void onClick(@Nullable String object) {
+                        optionSelected(object);
+                    }
+
+                    @Nullable
+                    @Override
+                    public String data() {
+                        return "Google";
+                    }
+                })
+                .option(new IOptionBuilder.IOption<String>() {
+                    @Override
+                    public String label() {
+                        return "Yahoo";
+                    }
+                    @Override
+                    public void onClick(@Nullable String object) {
+                        optionSelected(object);
+                    }
+                    @Nullable
+                    @Override
+                    public String data() {
+                        return "Yahoo";
+                    }
+
+                })
+                .gravity(Gravity.BOTTOM)
+                .show();
+    }
+
+    private void optionSelected(String option){
+        BlurMessageDialog.getInstance(this)
+                .message(option)
+                .gravity(Gravity.TOP)
+                .show();
     }
 
     private void showConfirm() {
